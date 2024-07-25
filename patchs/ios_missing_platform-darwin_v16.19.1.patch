@@ -1,0 +1,31 @@
+diff --git a/tools/v8_gypfiles/v8.gyp b/tools/v8_gypfiles/v8.gyp
+index ed042f8829..67327847ef 100644
+--- a/tools/v8_gypfiles/v8.gyp
++++ b/tools/v8_gypfiles/v8.gyp
+@@ -291,7 +291,7 @@
+           'sources': [
+             '<(V8_ROOT)/src/builtins/riscv64/builtins-riscv64.cc',
+           ],
+-        }],        
++        }],
+         ['v8_target_arch=="mips64" or v8_target_arch=="mips64el"', {
+           'sources': [
+             '<(V8_ROOT)/src/builtins/mips64/builtins-mips64.cc',
+@@ -881,7 +881,7 @@
+           'sources': [
+             '<!@pymod_do_main(GN-scraper "<(V8_ROOT)/BUILD.gn"  "\\"v8_base_without_compiler.*?v8_current_cpu == \\"riscv64\\".*?sources \\+= ")',
+           ],
+-        }],        
++        }],
+         ['OS=="win" and _toolset=="target"', {
+           'msvs_precompiled_header': '<(V8_ROOT)/../../tools/msvs/pch/v8_pch.h',
+           'msvs_precompiled_source': '<(V8_ROOT)/../../tools/msvs/pch/v8_pch.cc',
+@@ -1126,7 +1126,7 @@
+         ['OS == "ios"', {
+           'sources': [
+             '<(V8_ROOT)/src/base/debug/stack_trace_posix.cc',
+-            '<(V8_ROOT)/src/base/platform/platform-darwin.cc',
++            '<(V8_ROOT)/src/base/platform/platform-macos.cc',
+           ]
+         }],
+         ['is_win', {

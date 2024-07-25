@@ -1,0 +1,80 @@
+diff --git a/node.gyp b/node.gyp
+index 5a91d76f45..1013073f81 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -393,6 +393,19 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++          ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
+diff --git a/node.gypi b/node.gypi
+index 2f08b8a4a1..8d22e90ece 100644
+--- a/node.gypi
++++ b/node.gypi
+@@ -343,7 +343,7 @@
+             './deps/openssl/openssl.gyp:openssl',
+ 
+             # For tests
+-            './deps/openssl/openssl.gyp:openssl-cli',
++            #'./deps/openssl/openssl.gyp:openssl-cli',
+           ],
+           'conditions': [
+             # -force_load or --whole-archive are not applicable for
+diff --git a/tools/gyp/pylib/gyp/common.py b/tools/gyp/pylib/gyp/common.py
+index 0847cdabc7..73870d5b87 100644
+--- a/tools/gyp/pylib/gyp/common.py
++++ b/tools/gyp/pylib/gyp/common.py
+@@ -471,6 +471,7 @@ def CopyTool(flavor, out_path, generator_flags={}):
+         "solaris": "flock",
+         "mac": "mac",
+         "win": "win",
++        "ios": "mac",
+     }.get(flavor, None)
+     if not prefix:
+         return
+diff --git a/tools/gyp/pylib/gyp/generator/ninja.py b/tools/gyp/pylib/gyp/generator/ninja.py
+index 3db3771ac9..f7a685be4f 100644
+--- a/tools/gyp/pylib/gyp/generator/ninja.py
++++ b/tools/gyp/pylib/gyp/generator/ninja.py
+@@ -1583,7 +1583,7 @@ class NinjaWriter:
+         elif spec["type"] == "static_library":
+             self.target.binary = self.ComputeOutput(spec)
+             if (
+-                self.flavor not in ("mac", "openbsd", "netbsd", "win")
++                self.flavor not in ("mac", "openbsd", "netbsd", "win", "ios")
+                 and not self.is_standalone_static_library
+             ):
+                 self.ninja.build(
+@@ -2496,7 +2496,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
+             ),
+         )
+ 
+-    if flavor != "mac" and flavor != "win":
++    if flavor != "mac" and flavor != "win" and flavor != "ios":
+         master_ninja.rule(
+             "alink",
+             description="AR $out",
+@@ -2845,7 +2845,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
+             if name != target.FinalOutput() and spec["toolset"] == "target":
+                 target_short_names.setdefault(name, []).append(target)
+             target_outputs[qualified_target] = target
+-            if qualified_target in all_targets:
++            if qualified_target in all_targets and 'executable' != target.type:
+                 all_outputs.add(target.FinalOutput())
+             non_empty_target_names.add(name)
+         else:

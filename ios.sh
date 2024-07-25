@@ -19,7 +19,7 @@ node $WORKSPACE/node-script/add_arraybuffer_new_without_stl.js deps/v8
 node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[ fetch ninja for mac ]====="
-wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
+wget https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-mac.zip
 unzip ninja-mac.zip
 
 echo "=====[Building libnode]====="

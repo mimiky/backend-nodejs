@@ -121,7 +121,7 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '12'
+        xcode-version: '13'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
